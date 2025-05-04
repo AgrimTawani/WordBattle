@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String         @id @default(cuid())
+  clerkId       String         @unique
+  email         String         @unique
+  games         Game[]         @relation("GamePlayers")
+  wonGames      Game[]         @relation("GameWinner")
+  wins          Int            @default(0)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  rush          Rush?
+  friends       Friend[]       @relation("UserFriends")
+  friendOf      Friend[]       @relation("FriendOf")
+  sentRequests     FriendRequest[] @relation("SentRequests")
+  receivedRequests FriendRequest[] @relation("ReceivedRequests")
+  challenges       GameChallenge[] @relation("Challenger")
+  challenged       GameChallenge[] @relation("Challenged")
+}
+
+model Game {
+  id        String   @id @default(cuid())
+  word      String
+  status    String   // "active", "completed"
+  winnerId  String?
+  winner    User?    @relation("GameWinner", fields: [winnerId], references: [id])
+  players   User[]   @relation("GamePlayers")
+  mode      String   // "classic", "wordy", etc.
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  owner     String
+  review    String
+  upvotes   Int      @default(0)
+  downvotes Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model ReviewVote {
+  id        String   @id @default(cuid())
+  userId    String
+  reviewId  String
+  type      String   // 'upvote' or 'downvote'
+  createdAt DateTime @default(now())
+  @@unique([userId, reviewId])
+}
+
+model Rush {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  highscore Int      @default(0)
+  user      User     @relation(fields: [userId], references: [clerkId])
+}
+
+model Friend {
+  id        String   @id @default(cuid())
+  userId    String
+  friendId  String
+  user      User     @relation("UserFriends", fields: [userId], references: [clerkId])
+  friend    User     @relation("FriendOf", fields: [friendId], references: [clerkId])
+  createdAt DateTime @default(now())
+  @@unique([userId, friendId])
+}
+
+model FriendRequest {
+  id        String   @id @default(cuid())
+  senderId  String
+  receiverId String
+  status    String   // "pending", "accepted", "rejected"
+  sender    User     @relation("SentRequests", fields: [senderId], references: [clerkId])
+  receiver  User     @relation("ReceivedRequests", fields: [receiverId], references: [clerkId])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@unique([senderId, receiverId])
+}
+
+model GameChallenge {
+  id           String   @id @default(cuid())
+  challengerId String
+  challengedId String
+  mode         String   // "classic" or "wordy"
+  status       String   // "pending", "accepted", "rejected"
+  challenger   User     @relation("Challenger", fields: [challengerId], references: [clerkId])
+  challenged   User     @relation("Challenged", fields: [challengedId], references: [clerkId])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+} 

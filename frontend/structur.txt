@@ -1,0 +1,36 @@
+backend/
+├── src/
+│   ├── server.ts                # Main entry, sets up app, sockets, imports routes
+│   ├── app.ts                   # Express app setup (middleware, error handling)
+│   ├── config/                  # Config files (env, constants, etc.)
+│   │   └── gameModes.ts         # Game mode definitions (board size, rules)
+│   ├── routes/                  # All API routes
+│   │   ├── userRoutes.ts
+│   │   ├── friendRoutes.ts
+│   │   ├── gameRoutes.ts
+│   │   └── paymentRoutes.ts     # (future: Razorpay, etc.)
+│   ├── controllers/             # Business logic for each feature
+│   │   ├── userController.ts
+│   │   ├── friendController.ts
+│   │   ├── gameController.ts
+│   │   └── paymentController.ts # (future)
+│   ├── sockets/                 # Real-time logic (Socket.IO)
+│   │   ├── index.ts             # Socket.IO setup and event registration
+│   │   ├── gameSocket.ts        # Game events (join, guess, etc.)
+│   │   └── friendSocket.ts      # Friend request notifications, etc.
+│   ├── game/                    # Core game logic, utilities, and tiebreakers
+│   │   ├── gameManager.ts       # In-memory game state, matchmaking, etc.
+│   │   ├── tiebreaker.ts        # Dynamic tiebreaker logic (green/yellow/tie)
+│   │   ├── wordleUtils.ts       # Tile color logic, word validation, etc.
+│   │   └── modes/               # Each game mode logic (classic, wordy, etc.)
+│   │       ├── classic.ts
+│   │       ├── wordy.ts
+│   │       └── ...              # Add new modes easily
+│   ├── models/                  # ORM models (if not using Prisma directly)
+│   │   └── ...                  # (optional, for custom logic)
+│   ├── prisma/                  # Prisma schema and migrations
+│   │   └── schema.prisma
+│   └── utils/                   # General utilities (validation, error handling)
+│       └── ...
+├── package.json
+└── ...
