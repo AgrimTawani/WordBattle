@@ -73,7 +73,7 @@ export default function GameChallengeNotification({
       </p>
       <div className="flex gap-2">
         <Button
-          variant="default"
+          variant="primary"
           onClick={handleAccept}
           className="bg-green-600 hover:bg-green-700"
         >
