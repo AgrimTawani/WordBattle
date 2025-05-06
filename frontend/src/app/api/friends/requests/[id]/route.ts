@@ -4,16 +4,9 @@ import { auth } from '@clerk/nextjs/server';
 
 const prisma = new PrismaClient();
 
-type RouteContext = {
-  params: {
-    id: string;
-  };
-};
-
-// @ts-ignore - Next.js route handler type issue
 export async function POST(
   request: NextRequest,
-  { params }: RouteContext
+  { params }: { params: { id: string } }
 ) {
   try {
     const { userId } = await auth();
