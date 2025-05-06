@@ -4,15 +4,22 @@ import { auth } from '@clerk/nextjs/server';
 
 const prisma = new PrismaClient();
 
+type RouteContext = {
+  params: {
+    id: string;
+  };
+};
+
+// @ts-ignore - Next.js route handler type issue
 export async function POST(
   request: NextRequest,
-  context: { params: { id: string } }
+  { params }: RouteContext
 ) {
   try {
     const { userId } = await auth();
     if (!userId) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
-    const requestId = context.params.id;
+    const requestId = params.id;
     if (!requestId) return NextResponse.json({ error: 'Request ID is required' }, { status: 400 });
 
     // Get the friend request
