@@ -4,9 +4,9 @@ import { auth } from '@clerk/nextjs/server';
 
 const prisma = new PrismaClient();
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, context: any) {
   const { userId } = await auth();
-  const { id } = params;
+  const { id } = context.params;
   if (!userId) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
   if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 });
 
