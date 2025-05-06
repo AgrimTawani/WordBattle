@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useRef } from 'react';
-import { io, Socket } from 'socket.io-client';
+import io from 'socket.io-client';
 
 export const useGameSocket = () => {
-  const socketRef = useRef<Socket | null>(null);
+  const socketRef = useRef<ReturnType<typeof io> | null>(null);
 
   useEffect(() => {
     // Initialize socket connection
