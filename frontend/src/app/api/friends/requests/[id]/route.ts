@@ -4,12 +4,15 @@ import { auth } from '@clerk/nextjs/server';
 
 const prisma = new PrismaClient();
 
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(
+  request: NextRequest,
+  context: { params: { id: string } }
+) {
   try {
     const { userId } = await auth();
     if (!userId) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
-    const requestId = params.id;
+    const requestId = context.params.id;
     if (!requestId) return NextResponse.json({ error: 'Request ID is required' }, { status: 400 });
 
     // Get the friend request
