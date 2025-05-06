@@ -19,7 +19,7 @@ export default function RulesPage() {
             </ul>
           </li>
           <li>
-            <span className="font-bold">Multiplayer:</span> In multiplayer, the first player to guess the word correctly wins. If neither player guesses in 6 tries, it's a draw.
+            <span className="font-bold">Multiplayer:</span> In multiplayer, the first player to guess the word correctly wins. If neither player guesses in 6 tries, it&apos;s a draw.
           </li>
           <li>
             <span className="font-bold">Challenge a Friend:</span> Use the &quot;Challenge a Friend&quot; mode to play directly against your friends in real time.
