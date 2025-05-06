@@ -43,13 +43,12 @@ export async function GET(req: NextRequest) {
 }
 
 // POST /api/friends/requests/:id/accept - accept friend request
-  // @ts-ignore
-export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+export async function POST(req: NextRequest, context: any) {
   try {
     const { userId } = await auth();
     if (!userId) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
-    const { id } = params;
+    const { id } = context.params;
     if (!id) return NextResponse.json({ error: 'Request ID is required' }, { status: 400 });
 
     const request = await prisma.friendRequest.findUnique({
@@ -82,12 +81,12 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
 }
 
 // DELETE /api/friends/requests/:id - reject friend request
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, context: any) {
   try {
     const { userId } = await auth();
     if (!userId) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
-    const { id } = params;
+    const { id } = context.params;
     if (!id) return NextResponse.json({ error: 'Request ID is required' }, { status: 400 });
 
     const request = await prisma.friendRequest.findUnique({
