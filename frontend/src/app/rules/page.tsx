@@ -22,7 +22,7 @@ export default function RulesPage() {
             <span className="font-bold">Multiplayer:</span> In multiplayer, the first player to guess the word correctly wins. If neither player guesses in 6 tries, it's a draw.
           </li>
           <li>
-            <span className="font-bold">Challenge a Friend:</span> Use the "Challenge a Friend" mode to play directly against your friends in real time.
+            <span className="font-bold">Challenge a Friend:</span> Use the &quot;Challenge a Friend&quot; mode to play directly against your friends in real time.
           </li>
         </ol>
         <div className="mt-6 md:mt-8 text-center text-white font-serif text-base md:text-lg">

@@ -23,7 +23,7 @@ export function NotificationSystem() {
         }]);
       }
     });
-  }, [pendingChallenges]);
+  }, [pendingChallenges, notifications]);
 
   const removeNotification = (id: string) => {
     setNotifications(prev => prev.filter(n => n.id !== id));

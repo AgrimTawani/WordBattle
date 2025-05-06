@@ -57,7 +57,7 @@ export const useChallengeSocket = () => {
         socket.disconnect();
       }
     };
-  }, []);
+  }, [socket]);
 
   return socket;
 }; 

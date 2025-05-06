@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { Socket } from 'socket.io-client';
-import { io as socketIO } from 'socket.io-client';
+import type { Socket } from 'socket.io-client';
+import socketIOClient from 'socket.io-client';
 
 export const useMatchmakingSocket = () => {
   const [socket, setSocket] = useState<Socket | null>(null);
@@ -11,7 +11,7 @@ export const useMatchmakingSocket = () => {
     // Initialize socket connection
     const initSocket = async () => {
       try {
-        const newSocket = socketIO(process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000', {
+        const newSocket = socketIOClient(process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000', {
           path: '/socket.io',
           transports: ['websocket']
         });
@@ -42,7 +42,7 @@ export const useMatchmakingSocket = () => {
         socket.disconnect();
       }
     };
-  }, []);
+  }, [socket]);
 
   return socket;
 }; 
