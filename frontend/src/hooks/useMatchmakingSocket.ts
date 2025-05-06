@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import io from 'socket.io-client';
 
 export const useMatchmakingSocket = () => {
-  const [socket, setSocket] = useState<ReturnType<typeof io> | null>(null);
+  const socketRef = useRef<ReturnType<typeof io> | null>(null);
 
   useEffect(() => {
     // Initialize socket connection
@@ -27,7 +27,7 @@ export const useMatchmakingSocket = () => {
           console.error('Socket error:', error);
         });
 
-        setSocket(newSocket);
+        socketRef.current = newSocket;
       } catch (error) {
         console.error('Socket initialization error:', error);
       }
@@ -37,11 +37,11 @@ export const useMatchmakingSocket = () => {
 
     // Cleanup on unmount
     return () => {
-      if (socket) {
-        socket.disconnect();
+      if (socketRef.current) {
+        socketRef.current.disconnect();
       }
     };
-  }, [socket]);
+  }, []); // Empty dependency array
 
-  return socket;
+  return socketRef.current;
 }; 
