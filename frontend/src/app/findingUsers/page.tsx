@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useMatchmakingSocket } from "@/hooks/useMatchmakingSocket";
 import { useUser } from "@clerk/nextjs";
 import SearchingTiles from "@/components/SearchingTiles";
 
-export default function FindingUsersPage() {
+function FindingUsersContent() {
   const router = useRouter();
   const socket = useMatchmakingSocket();
   const { user, isLoaded } = useUser();
@@ -67,5 +67,19 @@ export default function FindingUsersPage() {
         <SearchingTiles />
       </div>
     </main>
+  );
+}
+
+export default function FindingUsersPage() {
+  return (
+    <Suspense fallback={
+      <main className="flex min-h-[calc(100vh-4rem)] bg-zinc-900 flex-col items-center justify-center p-24">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold mb-8">Loading...</h1>
+        </div>
+      </main>
+    }>
+      <FindingUsersContent />
+    </Suspense>
   );
 } 
