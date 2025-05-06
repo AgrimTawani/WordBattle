@@ -1,11 +1,10 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import type { Socket } from 'socket.io-client';
-import socketIOClient from 'socket.io-client';
+import io from 'socket.io-client';
 
 export const useChallengeSocket = () => {
-  const [socket, setSocket] = useState<Socket | null>(null);
+  const [socket, setSocket] = useState<ReturnType<typeof io> | null>(null);
 
   useEffect(() => {
     // Initialize socket connection
@@ -14,7 +13,7 @@ export const useChallengeSocket = () => {
         const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000';
         console.log('Connecting to backend at:', backendUrl);
         
-        const newSocket = socketIOClient(backendUrl, {
+        const newSocket = io(backendUrl, {
           path: '/socket.io',
           transports: ['websocket', 'polling'],
           reconnection: true,
@@ -22,8 +21,7 @@ export const useChallengeSocket = () => {
           reconnectionDelay: 1000,
           timeout: 10000,
           autoConnect: true,
-          forceNew: true,
-          withCredentials: true
+          forceNew: true
         });
 
         newSocket.on('connect', () => {
