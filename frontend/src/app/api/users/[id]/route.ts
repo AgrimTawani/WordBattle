@@ -12,8 +12,9 @@ const prisma = new PrismaClient({
 });
 
 // GET /api/users/[id] - get user data
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, context: any) {
   try {
+    const { id } = context.params;
     const { userId } = await auth();
     if (!userId) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
@@ -53,8 +54,9 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 }
 
 // PUT /api/users/[id] - update user data
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, context: any) {
   try {
+    const { id } = context.params;
     const { userId } = await auth();
     if (!userId) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
