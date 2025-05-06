@@ -6,13 +6,13 @@ const prisma = new PrismaClient();
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: any
 ) {
   try {
     const { userId } = await auth();
     if (!userId) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 });
 
-    const requestId = params.id;
+    const requestId = context.params.id;
     if (!requestId) return NextResponse.json({ error: 'Request ID is required' }, { status: 400 });
 
     // Get the friend request
