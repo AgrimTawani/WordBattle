@@ -64,7 +64,7 @@ export default function ResultPage({ params }: { params: Promise<{ id: string }>
   const isWinner = result.winner === user?.id;
 
   return (
-    <main className="flex min-h-[calc(100vh-4rem)] bg-zinc-900 flex-col items-center justify-center p-24">
+    <main className="flex min-h-[calc(100vh-4rem)] w-screen bg-zinc-900 flex-col items-center justify-center p-24">
       <div className="text-center">
         <h1 className="text-4xl font-bold mb-8">
           {isWinner ? "Congratulations! You Won!" : "Game Over"}

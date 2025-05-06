@@ -232,7 +232,7 @@ export default function GamePage({ params }: { params: Promise<{ id: string }> }
   }
 
   return (
-    <main className="flex min-h-[calc(100vh-4rem)] bg-zinc-900 flex-col items-center justify-center p-24">
+    <main className="flex min-h-[calc(100vh-4rem)] w-screen bg-zinc-900 flex-col items-center justify-center p-24">
       <div className="text-center">
         <h1 className="text-4xl font-bold mb-8">{mode === "wordy" ? "Wordy Game (6x6)" : "Wordle Game (5x6)"}</h1>
         <div className={`grid grid-rows-${MAX_ATTEMPTS} gap-2 mb-8`}>
