@@ -4,6 +4,13 @@ import { auth } from '@clerk/nextjs/server';
 
 const prisma = new PrismaClient();
 
+interface Friend {
+  friend: {
+    email: string;
+    clerkId: string;
+  };
+}
+
 // GET /api/friends - get user's friends
 export async function GET() {
   try {
@@ -28,7 +35,7 @@ export async function GET() {
 
     if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 });
 
-    const friends = user.friends.map(f => ({
+    const friends = user.friends.map((f: Friend) => ({
       id: f.friend.clerkId,
       email: f.friend.email
     }));
