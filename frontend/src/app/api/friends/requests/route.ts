@@ -43,6 +43,7 @@ export async function GET(req: NextRequest) {
 }
 
 // POST /api/friends/requests/:id/accept - accept friend request
+  // @ts-ignore
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
   try {
     const { userId } = await auth();
