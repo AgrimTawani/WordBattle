@@ -17,8 +17,11 @@ const spaceGrotesk = Space_Grotesk({
 })
 
 export const metadata: Metadata = {
-  title: 'Multiplayer Wordle',
-  description: 'Play Wordle with friends in real-time',
+  title: 'WordBattle',
+  description: 'Challenge your friends to epic word battles in real-time',
+  icons: {
+    icon: '/favicon.ico',
+  },
 }
 
 export default function RootLayout({
