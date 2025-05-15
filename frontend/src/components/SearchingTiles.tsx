@@ -43,7 +43,7 @@ export default function SearchingTiles() {
   }, []);
 
   return (
-    <div className="flex gap-3 justify-center">
+    <div className="flex gap-3 w-screen justify-center">
       {LETTERS.map((letter, i) => (
         <div
           key={i}

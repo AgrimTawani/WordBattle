@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -128,6 +128,33 @@ export default function FriendsPage() {
     }
   };
 
+  // Add debug effect
+  useEffect(() => {
+    console.log('Modal state:', { showUserModal, selectedUser });
+  }, [showUserModal, selectedUser]);
+
+  const handleUserSelect = useCallback((user: User) => {
+    console.log('User selected:', user);
+    setSelectedUser(user);
+    setShowUserModal(true);
+    setSearchQuery("");
+    // Force close the Command dropdown
+    const activeElement = document.activeElement as HTMLElement;
+    if (activeElement) {
+      activeElement.blur();
+    }
+  }, []);
+
+  // Add debug effect
+  useEffect(() => {
+    console.log('Modal state changed:', { showUserModal, selectedUser });
+  }, [showUserModal, selectedUser]);
+
+  // Add debug effect for modal rendering
+  useEffect(() => {
+    console.log('Rendering modal with:', { showUserModal, selectedUser });
+  }, [showUserModal, selectedUser]);
+
   return (
     <main className="min-h-screen bg-zinc-900 p-4 w-screen flex flex-col items-center">
       <div className="w-full max-w-2xl mx-auto mt-4 md:mt-12 px-4">
@@ -150,30 +177,37 @@ export default function FriendsPage() {
           </div>
           <div className="relative">
             <Command className="rounded-lg border border-white bg-zinc-900">
-              <CommandInput
-                placeholder="Search users..."
-                value={searchQuery}
-                onValueChange={setSearchQuery}
-                className="text-white"
-              />
-              <CommandList>
-                <CommandEmpty>No users found.</CommandEmpty>
-                <CommandGroup>
-                  {searchResults.map((user) => (
-                    <CommandItem
-                      key={user.clerkId}
-                      onSelect={() => {
-                        setSelectedUser(user);
-                        setShowUserModal(true);
-                        setSearchQuery("");
-                      }}
-                      className="text-white hover:bg-zinc-800 cursor-pointer p-2 md:p-3"
-                    >
-                      {user.email}
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              </CommandList>
+              <div className="flex items-center border-b border-white px-3">
+                <Search className="h-4 w-4 shrink-0 text-white opacity-50" />
+                <CommandInput
+                  placeholder="Search users..."
+                  value={searchQuery}
+                  onValueChange={setSearchQuery}
+                  className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-white-50 disabled:cursor-not-allowed disabled:opacity-50 text-white border-0"
+                />
+              </div>
+              {searchResults.length > 0 && (
+                <CommandList className="absolute w-full bg-zinc-900 border border-t-0 border-white rounded-b-lg shadow-lg max-h-[300px] overflow-y-auto z-50">
+                  <CommandEmpty>No users found.</CommandEmpty>
+                  <CommandGroup>
+                    {searchResults.map((user) => (
+                      <div
+                        key={user.clerkId}
+                        onClick={() => handleUserSelect(user)}
+                        className="cursor-pointer"
+                      >
+                        <CommandItem
+                          value={user.email}
+                          onSelect={() => handleUserSelect(user)}
+                          className="text-white hover:bg-zinc-800 p-2 md:p-3"
+                        >
+                          {user.email}
+                        </CommandItem>
+                      </div>
+                    ))}
+                  </CommandGroup>
+                </CommandList>
+              )}
             </Command>
           </div>
         </motion.div>
@@ -263,6 +297,7 @@ export default function FriendsPage() {
       <UserStatsModal
         isOpen={showUserModal}
         onClose={() => {
+          console.log('Modal closing');
           setShowUserModal(false);
           setSelectedUser(null);
         }}

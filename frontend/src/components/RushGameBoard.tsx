@@ -273,7 +273,7 @@ export default function RushGameBoard() {
   };
 
   return (
-    <main className="flex min-h-[calc(100vh-4rem)] bg-zinc-900 flex-col items-center justify-center p-24">
+    <main className="flex min-h-[calc(100vh-4rem)] w-screen bg-zinc-900 flex-col items-center justify-center p-24">
       {showStartModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50">
           <div className="bg-gray-900 rounded-lg p-8 shadow-lg flex flex-col items-center">

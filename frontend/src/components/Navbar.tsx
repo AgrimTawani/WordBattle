@@ -70,7 +70,7 @@ export default function Navbar() {
             </span>
           </span>
           <span className="font-extrabold text-xl text-wordle-white font-serif tracking-wider group-hover:text-wordle-white transition-colors duration-200">
-            WordeBattle
+            WordBattle
           </span>
         </Link>
 
