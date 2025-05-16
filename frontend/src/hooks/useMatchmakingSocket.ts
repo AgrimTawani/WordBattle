@@ -10,7 +10,7 @@ export const useMatchmakingSocket = () => {
   useEffect(() => {
     if (!socketRef.current) {
       // Initialize socket connection
-      const newSocket = io(process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000', {
+      const newSocket = io(process.env.NEXT_PUBLIC_BACKEND_URL || 'https://localhost:5000', {
         path: '/socket.io',
         transports: ['websocket'],
         reconnection: true,

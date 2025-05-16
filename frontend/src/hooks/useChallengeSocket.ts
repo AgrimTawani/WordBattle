@@ -10,7 +10,7 @@ export const useChallengeSocket = () => {
     // Initialize socket connection
     const initSocket = async () => {
       try {
-        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000';
+        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://localhost:5000';
         console.log('Connecting to backend at:', backendUrl);
         
         const newSocket = io(backendUrl, {

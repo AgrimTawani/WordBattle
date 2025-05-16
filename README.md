@@ -1,84 +1,68 @@
-# Wordle 2.0 - Multiplayer Word Game
+# WordBattle
 
-A real-time multiplayer version of the popular word-guessing game Wordle, built with Next.js, Socket.IO, and Prisma.
+WordBattle is a multiplayer word-guessing game inspired by Wordle, where players can compete against each other in real-time.
 
 ## Features
 
-- Real-time multiplayer gameplay
-- User authentication with Clerk
-- Live game updates
-- Player statistics tracking
-- Responsive design
+- **Classic 5x6 Mode**: Compete against other players in the traditional Wordle format
+- **Real-time Matchmaking**: Find and challenge other players instantly
+- **Friends System**: Add friends and challenge them to private matches
+- **Game History**: Track your wins and previous games
 
-## Tech Stack
+## Technical Stack
 
 ### Frontend
-- Next.js 14
+- Next.js
+- Socket.IO Client
 - TypeScript
 - Tailwind CSS
-- Socket.IO Client
-- Clerk Authentication
 
 ### Backend
-- Node.js
+- Node.js (v18+)
 - Express
 - Socket.IO
-- Prisma
-- PostgreSQL
+- Prisma (Database ORM)
+- TypeScript
+
+## Prerequisites
+
+- Node.js v18 or higher
+- SSL Certificate (for HTTPS)
+- PostgreSQL database
 
 ## Environment Variables
 
 ### Frontend (.env)
 ```
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
-CLERK_SECRET_KEY=your_clerk_secret_key
-NEXT_PUBLIC_BACKEND_URL=your_backend_url
+NEXT_PUBLIC_BACKEND_URL=https://your-backend-url:5000
 ```
 
 ### Backend (.env)
 ```
-DATABASE_URL=your_postgresql_url
-FRONTEND_URL=your_frontend_url
 PORT=5000
+FRONTEND_URL=https://your-frontend-url:3000
+DATABASE_URL=your-postgresql-connection-string
 ```
 
-## Deployment Instructions
+## Socket Connection Types
 
-This is a monorepo containing both frontend and backend. You'll deploy both from the same repository but configure the services to use different directories.
+The application uses three different types of socket connections:
 
-### Frontend (Vercel)
-1. Create a Vercel account at vercel.com
-2. Click "Import Project"
-3. Connect your GitHub repository
-4. Configure the project:
-   - Framework Preset: Next.js
-   - Root Directory: `frontend`
-   - Build Command: `npm run build`
-   - Output Directory: `.next`
-5. Add Environment Variables in Vercel dashboard
-6. Deploy
+1. **Game Socket** (`useGameSocket`)
+   - Handles the core game mechanics
+   - Manages game state and player moves
 
-### Backend (Railway)
-1. Create a Railway account at railway.app
-2. Create a new project and choose "Deploy from GitHub repo"
-3. Connect your GitHub repository
-4. Configure the project:
-   - Root Directory: `backend`
-   - Start Command: `npm start`
-5. Add Environment Variables in Railway dashboard
-6. Deploy
+2. **Matchmaking Socket** (`useMatchmakingSocket`)
+   - Manages player queuing and matching
+   - Handles reconnection with 5 attempts
+   - Uses WebSocket transport
 
-### Domain Setup
-1. Purchase a domain from a registrar (e.g., Namecheap)
-2. In Vercel dashboard:
-   - Go to Settings > Domains
-   - Add your custom domain
-   - Copy the nameserver addresses
-3. In your domain registrar:
-   - Update nameservers to the ones provided by Vercel
-   - Wait for DNS propagation (usually 15-30 minutes)
+3. **Challenge Socket** (`useChallengeSocket`)
+   - Manages friend challenges and private games
+   - Supports both WebSocket and polling
+   - Includes automatic reconnection
 
-## Development Setup
+## Installation
 
 1. Clone the repository
 2. Install dependencies:
@@ -88,42 +72,54 @@ This is a monorepo containing both frontend and backend. You'll deploy both from
    npm install
 
    # Backend
-   cd ../backend
+   cd backend
    npm install
    ```
-3. Set up environment variables
-4. Run the development servers:
+3. Set up your environment variables
+4. Run database migrations:
    ```bash
+   cd backend
+   npx prisma migrate dev
+   ```
+5. Start the development servers:
+   ```bash
+   # Backend
+   cd backend
+   npm run dev
+
    # Frontend
    cd frontend
    npm run dev
-
-   # Backend
-   cd ../backend
-   npm run dev
    ```
 
-## Database Setup
+## Security Notes
 
-1. Set up PostgreSQL database (Railway provides this)
-2. Update DATABASE_URL in backend/.env
-3. Run migrations:
-   ```bash
-   cd backend
-   npx prisma migrate deploy
-   ```
+- SSL certificate is required for secure WebSocket connections
+- The application uses CORS with specific origin restrictions
+- Environment variables should be properly configured for production
 
-## Repository Structure
-```
-wordle_2.0/
-├── frontend/          # Next.js frontend application
-│   ├── src/
-│   └── package.json
-├── backend/           # Express backend application
-│   ├── src/
-│   ├── prisma/
-│   └── package.json
-└── README.md
-``` # WordBattle
-# WordBattle
-# WordBattle
+## Troubleshooting
+
+Common issues and solutions:
+
+1. **Matchmaking Issues**
+   - Ensure you're using Node.js v18 or higher
+   - Check WebSocket connection in browser dev tools
+   - Verify backend URL configuration
+
+2. **Friends Page**
+   - If modal doesn't appear, check z-index configurations
+   - Ensure Command component is properly mounted
+
+3. **SSL Certificate**
+   - Verify SSL certificate installation
+   - Check certificate chain is complete
+   - Ensure proper HTTPS configuration
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a new Pull Request

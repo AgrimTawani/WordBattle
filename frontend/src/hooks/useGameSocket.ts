@@ -10,7 +10,7 @@ export const useGameSocket = () => {
     // Initialize socket connection
     const initSocket = async () => {
       try {
-        socketRef.current = io(process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000', {
+        socketRef.current = io(process.env.NEXT_PUBLIC_BACKEND_URL || 'https://localhost:5000', {
           path: '/socket.io',
           transports: ['websocket']
         });

@@ -14,7 +14,7 @@ const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: process.env.FRONTEND_URL || "http://localhost:3000",
+    origin: process.env.FRONTEND_URL || "https://localhost:3000",
     methods: ["GET", "POST"],
     credentials: true
   }
@@ -24,7 +24,7 @@ const prisma = new PrismaClient();
 
 // Middleware
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:3000",
+  origin: process.env.FRONTEND_URL || "https://localhost:3000",
   credentials: true
 }));
 app.use(express.json());

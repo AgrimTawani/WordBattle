@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 
 const WORD_LENGTH = 5;
 const MAX_ATTEMPTS = 6;
-const RUSH_TIME = 180; // 3 minutes
+const RUSH_TIME = 300; // 3 minutes
 
 // Initial fallback words in case API fails
 const FALLBACK_WORDS = [
